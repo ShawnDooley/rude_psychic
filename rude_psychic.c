@@ -34,19 +34,35 @@
 
 #define PREFS_BASE    "/plugins/core/psychic"
 #define PREF_BUDDIES  PREFS_BASE "/buddies_only"
-#define PREF_NOTICE   PREFS_BASE "/show_notice"
 #define PREF_STATUS   PREFS_BASE "/activate_online"
 #define PREF_RAISE    PREFS_BASE "/raise_conv"
 
+#define PREF_RUDE     PREFS_BASE "/rude_messages"
 
 
+
+static char * rude_phrase(void)
+{
+	//It is crappy method, but it works.
+	
+	char* opts[5];
+	
+	opts[0] = "What the (*&%) do you want?";
+	opts[1] = "I don't care?";
+	opts[2] = "La la la! I'm not listening?";
+	opts[3] = "You smell like awful!";	
+	opts[4] = "Who the #$%^ are you?";
+		
+	srand(time(NULL));
+	return opts[(rand() %  5)];	
+}
 
 static char * random_phrase(void)
 {
 	char* opts[5];
 	
-	opts[0] = "What do you want?";
-	opts[1] = "Who sent you?";
+	opts[0] = "Hi, how are you doing?";
+	opts[1] = "So, what are you up to?";
 	opts[2] = "Fine thanks, and you?";
 	opts[3] = "I see you!";	
 	opts[4] = "I have no idea.";
@@ -56,16 +72,18 @@ static char * random_phrase(void)
 }
 
 
+
 static void
-buddy_typing_cb(PurpleAccount *acct, const char *name, void *data) {
+buddy_typing_cb(PurpleAccount *acct, const char *name, void *data) 
+{
+
   PurpleConversation *gconv = NULL;
   PurpleConvIm *imconv = NULL;
   
-  
-//PurpleConvIm *purple_conversation_get_im_data(const(PurpleConversation *conv)
 
   if(purple_prefs_get_bool(PREF_STATUS) &&
-     ! purple_status_is_available(purple_account_get_active_status(acct))) {
+     ! purple_status_is_available(purple_account_get_active_status(acct))) 
+	{
     purple_debug_info("psychic", "not available, doing nothing\n");
     return;
   }
@@ -76,13 +94,15 @@ buddy_typing_cb(PurpleAccount *acct, const char *name, void *data) {
     return;
   }
 
-  if(FALSE == purple_privacy_check(acct, name)) {
+  if(FALSE == purple_privacy_check(acct, name)) 
+	{
     purple_debug_info("psychic", "user %s is blocked\n", name);
     return;
   }
 
   gconv = purple_find_conversation_with_account(PURPLE_CONV_TYPE_IM, name, acct);
-  if(! gconv) {
+  if(! gconv) 
+	{
     purple_debug_info("psychic", "no previous conversation exists\n");
     gconv = purple_conversation_new(PURPLE_CONV_TYPE_IM, acct, name);
 
@@ -91,19 +111,21 @@ buddy_typing_cb(PurpleAccount *acct, const char *name, void *data) {
       purple_conversation_present(gconv);
     }
     
-    if(purple_prefs_get_bool(PREF_NOTICE)) {
 
 
 /* get the im information */    
     imconv = purple_conversation_get_im_data(gconv);
     
- /*Send a rude message */
+/*If rude mode is selected, send a rude message,
+otherwise, send a random phrase*/
 
+if(purple_prefs_get_bool(PREF_RUDE))
+    purple_conv_im_send(imconv, rude_phrase());
+else
     purple_conv_im_send(imconv, random_phrase());
  
 
 
-    }
 
     /* Necessary because we may be creating a new conversation window. */
     purple_conv_im_set_typing_state(PURPLE_CONV_IM(gconv), PURPLE_TYPING);
@@ -112,7 +134,8 @@ buddy_typing_cb(PurpleAccount *acct, const char *name, void *data) {
 
 
 static PurplePluginPrefFrame *
-get_plugin_pref_frame(PurplePlugin *plugin) {
+get_plugin_pref_frame(PurplePlugin *plugin) 
+{
 
   PurplePluginPrefFrame *frame;
   PurplePluginPref *pref;
@@ -128,21 +151,25 @@ get_plugin_pref_frame(PurplePlugin *plugin) {
   purple_plugin_pref_set_label(pref, _("Disable when away"));
   purple_plugin_pref_frame_add(frame, pref);
 
-  pref = purple_plugin_pref_new_with_name(PREF_NOTICE);
-  purple_plugin_pref_set_label(pref, _("Display notification message in"
-				     " conversations"));
-  purple_plugin_pref_frame_add(frame, pref);
 
   pref = purple_plugin_pref_new_with_name(PREF_RAISE);
   purple_plugin_pref_set_label(pref, _("Raise psychic conversations"));
   purple_plugin_pref_frame_add(frame, pref);
+
+//
+  pref = purple_plugin_pref_new_with_name(PREF_RUDE);
+  purple_plugin_pref_set_label(pref, _("Use rude messages"));
+  purple_plugin_pref_frame_add(frame, pref);
+//
+
 
   return frame;
 }
 
 
 static gboolean
-plugin_load(PurplePlugin *plugin) {
+plugin_load(PurplePlugin *plugin) 
+{
 
   void *convs_handle;
   convs_handle = purple_conversations_get_handle();
@@ -154,7 +181,8 @@ plugin_load(PurplePlugin *plugin) {
 }
 
 
-static PurplePluginUiInfo prefs_info = {
+static PurplePluginUiInfo prefs_info = 
+{
   get_plugin_pref_frame,
   0,    /* page_num (Reserved) */
   NULL, /* frame (Reserved) */
@@ -167,7 +195,8 @@ static PurplePluginUiInfo prefs_info = {
 };
 
 
-static PurplePluginInfo info = {
+static PurplePluginInfo info = 
+{
   PURPLE_PLUGIN_MAGIC,
   PURPLE_MAJOR_VERSION,
   PURPLE_MINOR_VERSION,
@@ -203,11 +232,14 @@ static PurplePluginInfo info = {
 
 
 static void
-init_plugin(PurplePlugin *plugin) {
+init_plugin(PurplePlugin *plugin) 
+{
   purple_prefs_add_none(PREFS_BASE);
-  purple_prefs_add_bool(PREF_BUDDIES, FALSE);
-  purple_prefs_add_bool(PREF_NOTICE, TRUE);
+	purple_prefs_add_bool(PREF_RUDE, FALSE);  
+	purple_prefs_add_bool(PREF_BUDDIES, FALSE);
   purple_prefs_add_bool(PREF_STATUS, TRUE);
+  
+
 }
 
 
