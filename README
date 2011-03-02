@@ -1,0 +1,15 @@
+This plugin is a modification of the Phychic Mode plugin for Pidgin.
+
+The original plugin notified you that someone had started typing to you 
+before they actually sent a message. The english version opened a new
+conversation window and popped up a system message that said "You feel a 
+disturbance in the force...". This version behaves similarly, but instead
+of just notifying you that someone is typing to you, this plugin will send
+a message to the person who is typing to you. At the moment, it should just
+say "Hi". The initial implementation actually said "What the (*^% do you
+want" which is why it is named rude psychic. I am currently adding the
+option to have a number of other random phrases that it selects at random.
+
+If I get really motivated I will add a selection in the configuration to 
+allow for different types of automated responses in ranges like Friendly, 
+Excited, Angry, ...etc.
