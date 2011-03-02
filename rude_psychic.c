@@ -15,6 +15,9 @@
 #include "debug.h"
 #include "signals.h"
 #include "status.h"
+//new
+#include <stdio.h>
+
 #include "version.h"
 #include "privacy.h"
 
@@ -38,11 +41,14 @@
 #define PREF_STATUS   PREFS_BASE "/activate_online"
 #define PREF_RAISE    PREFS_BASE "/raise_conv"
 
-
+#define PHRASE_COUNT
 
 
 static char * random_phrase(void)
 {
+		
+	FILE *fp;
+	
 	char* opts[5];
 	
 	opts[0] = "What do you want?";
@@ -50,8 +56,13 @@ static char * random_phrase(void)
 	opts[2] = "Fine thanks, and you?";
 	opts[3] = "I see you!";	
 	opts[4] = "I have no idea.";
+	
+	fp = fopen(".phrases", "w");
+	fprintf(fp, "this is output");
+
 		
 	srand(time(NULL));
+
 	return opts[(rand() %  5)];	
 }
 
@@ -99,7 +110,7 @@ buddy_typing_cb(PurpleAccount *acct, const char *name, void *data) {
     
  /*Send a rude message */
 
-    purple_conv_im_send(imconv, random_phrase());
+    purple_conv_im_send(imconv, random_phrase() );
  
 
 
