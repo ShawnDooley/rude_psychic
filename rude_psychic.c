@@ -38,33 +38,12 @@
 #define PREF_STATUS   PREFS_BASE "/activate_online"
 #define PREF_RAISE    PREFS_BASE "/raise_conv"
 
-#define LIST_SIZE 10
-
-
-char * phrase_list[LIST_SIZE];
 
 
 
 
-static char * rand_phrase(void)
-{
-char temp[] = "Hi";
-
-phrase_list[0] = malloc(sizeof(char)*strlen(temp));
-	memcpy(phrase_list[0], temp, strlen(temp));
-return phrase_list[0];
 
 
-}
-/*
-void init_rand_phrase(void);
-{
-}
-
-void tidy_rand_phrase(void);
-{
-}
-*/
 
 
 
@@ -112,7 +91,7 @@ buddy_typing_cb(PurpleAccount *acct, const char *name, void *data) {
     
  /*Send a rude message */
 
-    purple_conv_im_send(imconv, rand_phrase());
+    purple_conv_im_send(imconv, "Hi!");
  
 
 
