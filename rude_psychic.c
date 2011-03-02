@@ -41,11 +41,19 @@
 
 
 
-
-
-
-
-
+static char * random_phrase(void)
+{
+	char* opts[5];
+	
+	opts[0] = "What do you want?";
+	opts[1] = "Who sent you?";
+	opts[2] = "Fine thanks, and you?";
+	opts[3] = "I see you!";	
+	opts[4] = "I have no idea.";
+		
+	srand(time(NULL));
+	return opts[(rand() %  5)];	
+}
 
 
 static void
@@ -91,7 +99,7 @@ buddy_typing_cb(PurpleAccount *acct, const char *name, void *data) {
     
  /*Send a rude message */
 
-    purple_conv_im_send(imconv, "Hi!");
+    purple_conv_im_send(imconv, random_phrase());
  
 
 
