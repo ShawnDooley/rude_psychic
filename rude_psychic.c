@@ -25,6 +25,7 @@
 
 #define PLUGIN_ID       "core-wazutiman-psychic"
 #define PLUGIN_NAME     N_("Rude Psychic Mode")
+#define PLUGIN_VERSION  "1.0.1"
 #define PLUGIN_SUMMARY  N_("Will offend people trying to talk to you.")
 #define PLUGIN_DESC     N_("Sends a rude message to people when they start " \
 			   "typing a new IM to you. Works with" \
@@ -208,7 +209,7 @@ static PurplePluginInfo info =
 
   PLUGIN_ID,              /**< id */
   PLUGIN_NAME,            /**< name */
-  DISPLAY_VERSION,        /**< version */
+  PLUGIN_VERSION,        /**< version */
   PLUGIN_SUMMARY,         /**< summary */
   PLUGIN_DESC,            /**< description */
   PLUGIN_AUTHOR,          /**< author */
