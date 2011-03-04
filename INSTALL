@@ -1,9 +1,18 @@
 Installation instructions.
 
-At the moment, there is no convenient method to make and install this
-plugin. If you want to use it, you have to download the pidgin 
-development librarys, make the .so file, and move it to the plugin
-directory.
+In order to build this plugin, you need to have pidgin(or finch) and the libpurple development packages installed. For debian/ubuntu that should just require:
 
-When I get around to it,(right) I will try to make it a little bit more
-friendly.
+	sudo apt-get install libpurple-dev pidgin
+
+
+After you have those, you should be able to just run the following commands in the directory where you found this file.
+
+	./autogen.sh
+	./configure
+	make
+	sudo make install
+
+Apology:
+	I haven't actually done this install on a debian system, I built it in gentoo, but from what I read, this should work.
+
+
