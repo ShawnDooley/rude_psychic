@@ -1,5 +1,5 @@
 AC_PREREQ(2.59)
-AC_INIT(purple-cmds, 0.1.0, wazutiman@gmail.com)
+AC_INIT(rude_psychic, 0.1.0, wazutiman@gmail.com)
 AM_INIT_AUTOMAKE
 AM_MAINTAINER_MODE
 

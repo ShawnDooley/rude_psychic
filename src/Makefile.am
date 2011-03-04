@@ -1,8 +1,8 @@
 AAM_CFLAGS = -g -g3 -O2 -Wall -DVERSION=\"$(VERSION)\"
 
-purple_cmdsdir = $(PURPLE_INSTALL)
+rude_psychicdir = $(PURPLE_INSTALL)
 
-purple_cmds_LTLIBRARIES = \
+rude_psychic_LTLIBRARIES = \
 	rude_psychic.la
 
 rude_psychic_la_CFLAGS =	$(purple_CFLAGS)
