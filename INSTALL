@@ -1,10 +1,10 @@
 Installation instructions.
 
-In order to build this plugin, you need to have pidgin(or finch) and the libpurple development packages installed. For debian/ubuntu that should just require:
+In order to build this plugin, you need to have autoconf, libtool, and libpurple-dev. Also, it would make sense to have pidgin also, so in debian/ubuntu, run the following command:
 
-	sudo apt-get install libpurple-dev pidgin
+	sudo apt-get install libpurple-dev pidgin autoconf libtool
 
-
+That should make sure you have all of the tools you need.
 After you have those, you should be able to just run the following commands in the directory where you found this file.
 
 	./autogen.sh
@@ -12,7 +12,6 @@ After you have those, you should be able to just run the following commands in t
 	make
 	sudo make install
 
-Apology:
-	I haven't actually done this install on a debian system, I built it in gentoo, but from what I read, this should work.
+Installation for windows/mac are still in the works.
 
 
