@@ -1,0 +1,28 @@
+AC_PREREQ(2.59)
+AC_INIT(purple-cmds, 0.1.0, wazutiman@gmail.com)
+AM_INIT_AUTOMAKE
+AM_MAINTAINER_MODE
+
+AC_PROG_CC
+AC_PROG_INSTALL
+AC_DISABLE_STATIC
+
+AM_PROG_LIBTOOL
+LIBTOOL="$LIBTOOL --silent"
+AC_DEFINE(PURPLE_PLUGINS, 1, ["purple_plugin"])
+
+PKG_CHECK_MODULES(purple, purple)
+AC_SUBST(purple_CFLAGS)
+AC_SUBST(purple_LIBS)
+
+PKG_CHECK_MODULES(glib, [glib-2.0])
+AC_SUBST(glib_CFLAGS)
+AC_SUBST(glib_LIBS)
+
+PURPLE_INSTALL="`$PKG_CONFIG purple --variable=libdir`/purple-2"
+AC_SUBST(PURPLE_INSTALL)
+
+AC_OUTPUT([
+	Makefile
+	src/Makefile
+])
