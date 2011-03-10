@@ -12,6 +12,11 @@ After you have those, you should be able to just run the following commands in t
 	make
 	sudo make install
 
-Installation for windows/mac are still in the works.
+For windows there is no formal installer yet, but you should be able to copy the rude_psychic.dll file into the following directory.
+If you have pidgin installed already, the .purple directory should already exist, buy you will probably have to create the plugin
+directory and then copy the file into it.
 
+	C:\Users\(your username)\AppData\Roaming\.purple\plugins
 
+After the installation you will need to restart pidgin, and activate Rude Psychic in the plugins menu (not "Psychic Mode"). 
+That should be it. Enjoy annoying all of the people who message you.
