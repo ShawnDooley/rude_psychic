@@ -5,10 +5,10 @@ before they actually sent a message. The english version opened a new
 conversation window and popped up a system message that said "You feel a 
 disturbance in the force...". This version behaves similarly, but instead
 of just notifying you that someone is typing to you, this plugin will send
-a message to the person who is typing to you. At the moment, it should just
-say "Hi". The initial implementation actually said "What the (*^% do you
-want" which is why it is named rude psychic. I am currently adding the
-option to have a number of other random phrases that it selects at random.
+a message to the person who is typing to you. It will now choose from one
+of 10 different sayings. 5 in the friendly mode, and 5 in rude mode.
+ The initial implementation actually said "What the (*^% do you
+want" which is why it is named rude psychic.
 
 If I get really motivated I will add a selection in the configuration to 
 allow for different types of automated responses in ranges like Friendly, 
