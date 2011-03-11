@@ -18,14 +18,18 @@
 #include "version.h"
 #include "privacy.h"
 
+#include "util.h"
+#include "request.h"
+#include "notify.h"
+
 #include "plugin.h"
 #include "pluginpref.h"
 #include "prefs.h"
 
 
 #define PLUGIN_ID       "core-wazutiman-psychic"
-#define PLUGIN_NAME     N_("Rude Psychic Mode")
-#define PLUGIN_VERSION  "1.0.1"
+#define PLUGIN_NAME     N_("Rude Psychic Mode-test")
+#define PLUGIN_VERSION  "1.0.2"
 #define PLUGIN_SUMMARY  N_("Will offend people trying to talk to you.")
 #define PLUGIN_DESC     N_("Sends a rude message to people when they start " \
 			   "typing a new IM to you. Works with" \
@@ -120,6 +124,10 @@ buddy_typing_cb(PurpleAccount *acct, const char *name, void *data)
 /*If rude mode is selected, send a rude message,
 otherwise, send a random phrase*/
 
+//TODO Check to see if there is a rude message stored in the buddy
+//list xml
+
+
 if(purple_prefs_get_bool(PREF_RUDE))
     purple_conv_im_send(imconv, rude_phrase());
 else
@@ -132,6 +140,57 @@ else
     purple_conv_im_set_typing_state(PURPLE_CONV_IM(gconv), PURPLE_TYPING);
   }
 }
+
+
+static void
+dont_do_it_cb(PurpleBlistNode *node, const char *note)
+{
+//Dont save
+}
+
+static void
+do_it_cb(PurpleBlistNode *node, const char *note)
+{
+	//Save new "rude_msg" tag in buddylist xml
+	purple_blist_node_set_string(node, "rude_msg", note);
+}
+
+
+
+static void
+rude_message_cb(PurpleBlistNode *node, gpointer data)
+{
+	const char *note;
+
+	note = purple_blist_node_get_string(node, "rude_msg");
+
+	purple_request_input(node, _("Message"),
+					   _("Enter your message Below..."),
+					   NULL,
+					   note, TRUE, FALSE, "html",
+					   _("Save"), G_CALLBACK(do_it_cb),
+					   _("Cancel"), G_CALLBACK(dont_do_it_cb),
+					   NULL, NULL, NULL,
+					   node);
+}
+
+
+
+
+static void
+buddynote_rude_menu_cb(PurpleBlistNode *node, GList **m)
+{
+	PurpleMenuAction *bna = NULL;
+
+	if (purple_blist_node_get_flags(node) & PURPLE_BLIST_NODE_FLAG_NO_SAVE)
+		return;
+
+	*m = g_list_append(*m, bna);
+	bna = purple_menu_action_new(_("Enter message for this buddy."), PURPLE_CALLBACK(rude_message_cb), NULL, NULL);
+	*m = g_list_append(*m, bna);
+}
+
+
 
 
 static PurplePluginPrefFrame *
@@ -172,11 +231,14 @@ static gboolean
 plugin_load(PurplePlugin *plugin) 
 {
 
-  void *convs_handle;
-  convs_handle = purple_conversations_get_handle();
+	//call buddy_typing_cb when a buddy starts typing to you. 
+  purple_signal_connect(purple_conversations_get_handle(), 
+  "buddy-typing", plugin, PURPLE_CALLBACK(buddy_typing_cb), NULL);
 
-  purple_signal_connect(convs_handle, "buddy-typing", plugin,
-		      PURPLE_CALLBACK(buddy_typing_cb), NULL);
+	//
+	//Connect to buddylist menu signal
+	purple_signal_connect(purple_blist_get_handle(), "blist-node-extended-menu", plugin,	PURPLE_CALLBACK(buddynote_rude_menu_cb), NULL);
+
 
   return TRUE;
 }
