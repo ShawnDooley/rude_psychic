@@ -58,6 +58,41 @@ personal_rude_message_cb(PurpleBlistNode *node, gpointer data)
 
 }
 
+
+
+static char * rude_phrase(void)
+{
+	//It is crappy method, but it works.
+	file_test();
+	
+	char* opts[5];
+	
+	opts[0] = "What the (*&%) do you want?";
+	opts[1] = "I don't care?";
+	opts[2] = "La la la! I'm not listening?";
+	opts[3] = "You smell like awful!";	
+	opts[4] = "Who the #$%^ are you?";
+		
+	srand(time(NULL));
+	return opts[(rand() %  5)];	
+}
+
+static char * random_phrase(void)
+{
+	char* opts[5];
+	
+	opts[0] = "Hi, how are you doing?";
+	opts[1] = "So, what are you up to?";
+	opts[2] = "Fine thanks, and you?";
+	opts[3] = "I see you!";	
+	opts[4] = "I have no idea.";
+		
+	srand(time(NULL));
+	return opts[(rand() %  5)];	
+}
+
+
+
 static void
 buddy_typing_cb(PurpleAccount *acct, const char *name, void *data) 
 {
