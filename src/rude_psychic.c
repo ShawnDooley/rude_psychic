@@ -46,37 +46,17 @@
 
 
 
-static char * rude_phrase(void)
+
+const char *
+personal_rude_message_cb(PurpleBlistNode *node, gpointer data)
 {
-	//It is crappy method, but it works.
+	const char *note;
 	
-	char* opts[5];
+	note = purple_blist_node_get_string(node, "rude_msg");
 	
-	opts[0] = "What the (*&%) do you want?";
-	opts[1] = "I don't care?";
-	opts[2] = "La la la! I'm not listening?";
-	opts[3] = "You smell like awful!";	
-	opts[4] = "Who the #$%^ are you?";
-		
-	srand(time(NULL));
-	return opts[(rand() %  5)];	
+	return note;
+
 }
-
-static char * random_phrase(void)
-{
-	char* opts[5];
-	
-	opts[0] = "Hi, how are you doing?";
-	opts[1] = "So, what are you up to?";
-	opts[2] = "Fine thanks, and you?";
-	opts[3] = "I see you!";	
-	opts[4] = "I have no idea.";
-		
-	srand(time(NULL));
-	return opts[(rand() %  5)];	
-}
-
-
 
 static void
 buddy_typing_cb(PurpleAccount *acct, const char *name, void *data) 
@@ -128,11 +108,13 @@ otherwise, send a random phrase*/
 //list xml
 
 
-if(purple_prefs_get_bool(PREF_RUDE))
-    purple_conv_im_send(imconv, rude_phrase());
-else
-    purple_conv_im_send(imconv, random_phrase());
- 
+	
+//  purple_signal_connect(purple_blist_get_handle(), "blist-node-extended-menu",NULL, PURPLE_CALLBACK(personal_rude_message_cb), NULL, NULL);
+
+ //   purple_conv_im_send(imconv, rude_phrase());
+      
+     purple_conv_im_send(imconv, (char)PURPLE_CALLBACK(personal_rude_message_cb));
+
 
 
 
@@ -173,6 +155,10 @@ rude_message_cb(PurpleBlistNode *node, gpointer data)
 					   NULL, NULL, NULL,
 					   node);
 }
+
+
+
+
 
 
 
@@ -225,6 +211,40 @@ get_plugin_pref_frame(PurplePlugin *plugin)
 
   return frame;
 }
+
+static char * rude_phrase(void)
+{
+	//It is crappy method, but it works.
+	
+	char* opts[5];
+	
+	opts[0] = "What the (*&%) do you want?";
+	opts[1] = "I don't care?";
+	opts[2] = "La la la! I'm not listening?";
+	opts[3] = "You smell like awful!";	
+	opts[4] = "Who the #$%^ are you?";
+		
+	srand(time(NULL));
+	return opts[(rand() %  5)];	
+}
+
+static char * random_phrase(void)
+{
+	char* opts[5];
+	
+	opts[0] = "Hi, how are you doing?";
+	opts[1] = "So, what are you up to?";
+	opts[2] = "Fine thanks, and you?";
+	opts[3] = "I see you!";	
+	opts[4] = "I have no idea.";
+		
+	srand(time(NULL));
+	return opts[(rand() %  5)];	
+}
+
+
+
+
 
 
 static gboolean
