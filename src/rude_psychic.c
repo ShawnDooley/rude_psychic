@@ -46,31 +46,16 @@
 
 
 
-
-const char *
-personal_rude_message_cb(PurpleBlistNode *node, gpointer data)
-{
-	const char *note;
-	
-	note = purple_blist_node_get_string(node, "rude_msg");
-	
-	return note;
-
-}
-
-
-
+/*Returns a pointer to a random phrase*/
 static char * rude_phrase(void)
 {
-	//It is crappy method, but it works.
-	file_test();
-	
+
 	char* opts[5];
 	
 	opts[0] = "What the (*&%) do you want?";
 	opts[1] = "I don't care?";
-	opts[2] = "La la la! I'm not listening?";
-	opts[3] = "You smell like awful!";	
+	opts[2] = "La la la! I'm not listening!";
+	opts[3] = "Why do you think I care?";	
 	opts[4] = "Who the #$%^ are you?";
 		
 	srand(time(NULL));
@@ -92,15 +77,14 @@ static char * random_phrase(void)
 }
 
 
-
 static void
 buddy_typing_cb(PurpleAccount *acct, const char *name, void *data) 
 {
 
   PurpleConversation *gconv = NULL;
   PurpleConvIm *imconv = NULL;
-  
-
+  PurpleBuddy *imbuddy = NULL;
+  const char *msg = NULL;
   if(purple_prefs_get_bool(PREF_STATUS) &&
      ! purple_status_is_available(purple_account_get_active_status(acct))) 
 	{
@@ -136,21 +120,26 @@ buddy_typing_cb(PurpleAccount *acct, const char *name, void *data)
 /* get the im information */    
     imconv = purple_conversation_get_im_data(gconv);
     
-/*If rude mode is selected, send a rude message,
-otherwise, send a random phrase*/
-
-//TODO Check to see if there is a rude message stored in the buddy
-//list xml
 
 
-	
-//  purple_signal_connect(purple_blist_get_handle(), "blist-node-extended-menu",NULL, PURPLE_CALLBACK(personal_rude_message_cb), NULL, NULL);
-
- //   purple_conv_im_send(imconv, rude_phrase());
-      
-     purple_conv_im_send(imconv, (char)PURPLE_CALLBACK(personal_rude_message_cb));
-
-
+  imbuddy = purple_find_buddy(acct, name);
+  
+  msg = purple_blist_node_get_string(&imbuddy->node, "rude_msg");
+//Check to see fi there is a rude_msg stored in the buddy list xml
+  if(msg)
+  {
+    purple_conv_im_send(imconv, msg);
+  }
+  else
+  {
+    //If there isnt a custome message for the user, use whatever the
+    //default is set to (rude or regular)
+    if(purple_prefs_get_bool(PREF_RUDE))
+      purple_conv_im_send(imconv, rude_phrase());
+    else
+      purple_conv_im_send(imconv, random_phrase());
+	     
+  }
 
 
     /* Necessary because we may be creating a new conversation window. */
@@ -173,7 +162,6 @@ do_it_cb(PurpleBlistNode *node, const char *note)
 }
 
 
-
 static void
 rude_message_cb(PurpleBlistNode *node, gpointer data)
 {
@@ -192,12 +180,6 @@ rude_message_cb(PurpleBlistNode *node, gpointer data)
 }
 
 
-
-
-
-
-
-
 static void
 buddynote_rude_menu_cb(PurpleBlistNode *node, GList **m)
 {
@@ -207,11 +189,9 @@ buddynote_rude_menu_cb(PurpleBlistNode *node, GList **m)
 		return;
 
 	*m = g_list_append(*m, bna);
-	bna = purple_menu_action_new(_("Enter message for this buddy."), PURPLE_CALLBACK(rude_message_cb), NULL, NULL);
+	bna = purple_menu_action_new(_("Custom rude psychic message."), PURPLE_CALLBACK(rude_message_cb), NULL, NULL);
 	*m = g_list_append(*m, bna);
 }
-
-
 
 
 static PurplePluginPrefFrame *
@@ -246,40 +226,6 @@ get_plugin_pref_frame(PurplePlugin *plugin)
 
   return frame;
 }
-
-static char * rude_phrase(void)
-{
-	//It is crappy method, but it works.
-	
-	char* opts[5];
-	
-	opts[0] = "What the (*&%) do you want?";
-	opts[1] = "I don't care?";
-	opts[2] = "La la la! I'm not listening?";
-	opts[3] = "You smell like awful!";	
-	opts[4] = "Who the #$%^ are you?";
-		
-	srand(time(NULL));
-	return opts[(rand() %  5)];	
-}
-
-static char * random_phrase(void)
-{
-	char* opts[5];
-	
-	opts[0] = "Hi, how are you doing?";
-	opts[1] = "So, what are you up to?";
-	opts[2] = "Fine thanks, and you?";
-	opts[3] = "I see you!";	
-	opts[4] = "I have no idea.";
-		
-	srand(time(NULL));
-	return opts[(rand() %  5)];	
-}
-
-
-
-
 
 
 static gboolean
