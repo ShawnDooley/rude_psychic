@@ -4,10 +4,12 @@ This plugin is a modification of the Phychic Mode plugin for Pidgin.
 Install instructions can be found in the INSTALL file.
 
 FYI!!
-The windows dll is a version behind the linux version. I will build a new windows version whein I get back to a windows based computer.
+The windows dll is a version behind the linux version. It does not yet include the option to have custom messages for each contact on your list. I will build a new windows version whein I get back to a windows based computer.
+
+This plugin sends an automated instant message to people when they start typing to you. It requires that they allow other people to see when they are typing. It will only send the automated message if you do not currently have an open conversation with that person.
+There are a few default messages listed below, otherwise, you can set a custom message right clicking on the buddy in your buddy list, or through the menus in a conversation window.
 
 
-This plugin sends an automated message to people that start typing a message to you. There are default messages listed below, also there is the option to set a specific message for a buddy. It can be edited by right clicking on the buddy on your buddy list, or through the menus in a conversation window.
 
 
 The default messages are as follows
