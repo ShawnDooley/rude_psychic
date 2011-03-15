@@ -29,7 +29,7 @@
 
 #define PLUGIN_ID       "core-wazutiman-psychic"
 #define PLUGIN_NAME     N_("Rude Psychic Mode")
-#define PLUGIN_VERSION  "1.0.2"
+#define PLUGIN_VERSION  "1.0.3"
 #define PLUGIN_SUMMARY  N_("Will offend people trying to talk to you.")
 #define PLUGIN_DESC     N_("Sends a rude message to people when they start " \
 			   "typing a new IM to you. Works with" \
@@ -85,6 +85,7 @@ buddy_typing_cb(PurpleAccount *acct, const char *name, void *data)
   PurpleConvIm *imconv = NULL;
   PurpleBuddy *imbuddy = NULL;
   const char *msg = NULL;
+
   if(purple_prefs_get_bool(PREF_STATUS) &&
      ! purple_status_is_available(purple_account_get_active_status(acct))) 
 	{
