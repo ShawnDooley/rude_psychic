@@ -28,7 +28,7 @@
 
 
 #define PLUGIN_ID       "core-wazutiman-psychic"
-#define PLUGIN_NAME     N_("Rude Psychic Mode-test")
+#define PLUGIN_NAME     N_("Rude Psychic Mode")
 #define PLUGIN_VERSION  "1.0.2"
 #define PLUGIN_SUMMARY  N_("Will offend people trying to talk to you.")
 #define PLUGIN_DESC     N_("Sends a rude message to people when they start " \
@@ -43,7 +43,7 @@
 #define PREF_RAISE    PREFS_BASE "/raise_conv"
 
 #define PREF_RUDE     PREFS_BASE "/rude_messages"
-
+#define PREF_CUSTOM   PREFS_BASE "/custom_only"
 
 
 /*Returns a pointer to a random phrase*/
@@ -130,7 +130,7 @@ buddy_typing_cb(PurpleAccount *acct, const char *name, void *data)
   {
     purple_conv_im_send(imconv, msg);
   }
-  else
+  else if(FALSE == purple_prefs_get_bool(PREF_CUSTOM))
   {
     //If there isnt a custome message for the user, use whatever the
     //default is set to (rude or regular)
@@ -221,6 +221,11 @@ get_plugin_pref_frame(PurplePlugin *plugin)
   pref = purple_plugin_pref_new_with_name(PREF_RUDE);
   purple_plugin_pref_set_label(pref, _("Use rude messages"));
   purple_plugin_pref_frame_add(frame, pref);
+
+  pref = purple_plugin_pref_new_with_name(PREF_CUSTOM);
+  purple_plugin_pref_set_label(pref, _("Use only custom messages"));
+  purple_plugin_pref_frame_add(frame, pref);
+//
 //
 
 
@@ -301,7 +306,9 @@ init_plugin(PurplePlugin *plugin)
   purple_prefs_add_none(PREFS_BASE);
 	purple_prefs_add_bool(PREF_RUDE, FALSE);  
 	purple_prefs_add_bool(PREF_BUDDIES, FALSE);
-  purple_prefs_add_bool(PREF_STATUS, TRUE);
+  	purple_prefs_add_bool(PREF_RAISE, TRUE);
+ 	purple_prefs_add_bool(PREF_STATUS, TRUE);
+  	purple_prefs_add_bool(PREF_CUSTOM, TRUE);
   
 
 }

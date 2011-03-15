@@ -1,3 +1,5 @@
 Load messages from a file.
 More options than just nice/rude.
 Allow custom messages to be used exclusivly, without having default messages go to everyone else.
+Comment everything
+
