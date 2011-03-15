@@ -1,15 +1,31 @@
+
 This plugin is a modification of the Phychic Mode plugin for Pidgin.
 
-The original plugin notified you that someone had started typing to you 
-before they actually sent a message. The english version opened a new
-conversation window and popped up a system message that said "You feel a 
-disturbance in the force...". This version behaves similarly, but instead
-of just notifying you that someone is typing to you, this plugin will send
-a message to the person who is typing to you. It will now choose from one
-of 10 different sayings. 5 in the friendly mode, and 5 in rude mode.
- The initial implementation actually said "What the (*^% do you
-want" which is why it is named rude psychic.
+Install instructions can be found in the INSTALL file.
 
-If I get really motivated I will add a selection in the configuration to 
-allow for different types of automated responses in ranges like Friendly, 
-Excited, Angry, ...etc.
+FYI!!
+The windows dll is a version behind the linux version. I will build a new windows version whein I get back to a windows based computer.
+
+
+This plugin sends an automated message to people that start typing a message to you. There are default messages listed below, also there is the option to set a specific message for a buddy. It can be edited by right clicking on the buddy on your buddy list, or through the menus in a conversation window.
+
+
+The default messages are as follows
+
+Regular mode:
+-------------------------
+Hi, how are you doing?
+So, what are you up to?
+Fine thanks, and you?
+I see you!
+I have no idea.
+
+Rude Mode:
+------------------------
+What the (*&%) do you want?
+I don't care?
+La la la! I'm not listening!
+Why do you think I care?
+Who the #$%^ are you?
+
+

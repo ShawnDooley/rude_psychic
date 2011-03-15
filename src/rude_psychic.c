@@ -189,7 +189,7 @@ buddynote_rude_menu_cb(PurpleBlistNode *node, GList **m)
 		return;
 
 	*m = g_list_append(*m, bna);
-	bna = purple_menu_action_new(_("Custom rude psychic message."), PURPLE_CALLBACK(rude_message_cb), NULL, NULL);
+	bna = purple_menu_action_new(_("Custom rude psychic message"), PURPLE_CALLBACK(rude_message_cb), NULL, NULL);
 	*m = g_list_append(*m, bna);
 }
 
